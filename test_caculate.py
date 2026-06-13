@@ -1,6 +1,6 @@
 import pytest
 
-from calculate import calculate_sum
+from calculate import calculate_sum, calculate_mul, calculate_div, calculate_sub
 
 
 # def test_calculate_sum_positive_numbers():
@@ -27,6 +27,41 @@ from calculate import calculate_sum
 ])
 def test_calculate_sum(number1, number2, expected_result):
     assert calculate_sum(number1, number2) == expected_result
+
+
+@pytest.mark.parametrize("number1, number2, expected_result", [
+    (20, 10, 10),
+    (20, -30, 50),
+    (-50, -40, -10),
+    (0, 0, 0),
+])
+def test_calculate_sub(number1, number2, expected_result):
+    assert calculate_sub(number1, number2) == expected_result
+
+
+@pytest.mark.parametrize("number1, number2, expected_result", [
+    (10, 10, 100),
+    (20, -30, -600),
+    (-50, -40, 2000),
+    (0, 0, 0),
+])
+def test_calculate_mul(number1, number2, expected_result):
+    assert calculate_mul(number1, number2) == expected_result
+
+
+@pytest.mark.parametrize("number1, number2, expected_result", [
+    (10, 10, 1),
+    (20, -30, -0.6666666666666666),
+    (-50, -40, 1.25),
+    pytest.param(10, 0, None, marks=pytest.mark.xfail(raises=ZeroDivisionError)),
+])
+
+def test_calculate_div(number1, number2, expected_result):
+    if number2 == 0:
+        with pytest.raises(ZeroDivisionError):
+            calculate_div(number1, number2)
+    else:
+        assert calculate_div(number1, number2) == expected_result
 
 
 
